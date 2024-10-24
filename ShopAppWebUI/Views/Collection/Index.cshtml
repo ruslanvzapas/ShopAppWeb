@@ -1,0 +1,27 @@
+﻿@using ShopAppWebUI.Models;
+
+@model IEnumerable<Collection>
+@{
+}
+
+<h2>Collections</h2>
+
+<a asp-action="AddCollection" asp-controller="Collection" class="btn btn-primary">Add More</a>
+
+<table class="table table-striped my-2">
+    <tr>
+        <th>Collection</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var collection in Model)
+    {
+        <tr>
+            <td>@collection.CollectionName</td>
+            <td>
+                <a asp-action="UpdateCollection" asp-controller="Collection" asp-route-id="@collection.Id" class="btn btn-success">Edit</a>
+                <a asp-action="DeleteCollection" asp-controller="Collection" asp-route-id="@collection.Id" class="btn btn-danger" onclick="return window.confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,6 +1,231 @@
-html {
-  font-size: 14px;
+/* Підключення шрифтів */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+:root {
+    --pr-background: #F8F5FC;
 }
+
+/* Скидання відступів і заповнень для всіх елементів */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Гладке прокручування */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Header Start */
+
+#header {
+    display: flex;
+    background: #F8F5FC;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+}
+
+#navbarbox {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: -16px;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    #navbar li {
+        list-style: none;
+        padding: 0 20px;
+        position: relative;
+    }
+
+        #navbar li a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            transition: 0.3s ease;
+        }
+
+            #navbar li a:hover,
+            #navbar li a.active {
+                color: #E58653;
+            }
+
+                #navbar li a.active::after {
+                    content: "";
+                    width: 30%;
+                    height: 2px;
+                    background: #E58653;
+                    position: absolute;
+                    bottom: -4px;
+                    left: 20px;
+                }
+
+
+/* Стиль для выравнивания элементов по горизонтали */
+.navbar-nav {
+    display: flex; /* Устанавливаем элементы в строку */
+    align-items: center;
+    justify-content: flex-end; /* Прижимаем элементы к правому краю */
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0;
+    margin: 0;
+}
+
+    .navbar-nav .nav-item {
+        margin-right: 15px; /* Отступ между элементами */
+    }
+
+        .navbar-nav .nav-item:last-child {
+            margin-right: 0; /* Убираем отступ для последнего элемента */
+        }
+
+    .navbar-nav .nav-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        color: #1a1a1a;
+        padding: 0;
+        font-size: 16px;
+    }
+
+    .navbar-nav .badge {
+        margin-right: 5px; /* Отступ между иконкой корзины и числом */
+    }
+
+#cart-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cartCount {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: #E58653; /* Измени цвет при необходимости */
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 50%;
+    padding: 5px 7px;
+}
+
+.bi-cart {
+    font-size: 1.5rem;
+    color: #555; /* Цвет иконки корзины */
+}
+
+#cart-container:hover .bi-cart {
+    color: #E58653; /* Цвет иконки при наведении */
+}
+
+
+/* Dropdown Content (Hidden by default) */
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #F8F5FC;
+    min-width: 96px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        color: #1a1a1a;
+        padding: 16px 20px;
+        text-decoration: none;
+        display: block;
+    }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    color: white;
+}
+
+#dropdown-content {
+    position: absolute;
+}
+
+/* Контейнер зображення */
+.hero-image img {
+    width: 100vw; /* Зображення по ширині екрану */
+    height: 100%; /* Висота зображення на весь екран */
+    object-fit: cover; /* Обрізати зображення, якщо воно не пропорційне */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Зображення під контентом */
+}
+
+#hero img {
+    width: 100vw; /* Зображення по ширині екрану */
+    height: 100%; /* Висота зображення на весь екран */
+    position: absolute;
+    object-fit: cover; /* Обрізати зображення, якщо воно не пропорційне */
+    z-index: -1;
+}
+
+/* Секція для вирівнювання */
+#hero {
+    margin-left: 0;
+    position: relative;
+    height: 720px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Контейнер з текстом */
+.hero-content {
+    padding: 2rem 2.5rem;
+    background-color: #713936; /* Прозорий білий фон */
+    border-radius: 1px;
+    min-width: 600px;
+    max-width: 700px;
+    text-align: center;
+}
+
+#hero-content h1, h2, h3, p {
+    color: #FAFAFA;
+}
+
+/* Стилі кнопки */
+.button {
+    background-color: #FAFAFA;
+    font-size: 1.2rem;
+    text-decoration: none;
+    appearance: none;
+    padding: 0.7rem 2.8rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+    .button:hover {
+        background-color: #555;
+    }
 
 @media (min-width: 768px) {
   html {
@@ -20,3 +245,66 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/* Кнопки пошуку і скидання */
+.custom-search-button {
+    background-color: #28a745; /* Зелений колір для кнопки "Search" */
+    border-color: #28a745;
+    color: white;
+}
+
+    .custom-search-button:hover {
+        background-color: #218838; /* Темніший зелений при наведенні */
+        border-color: #218838;
+    }
+
+.custom-reset-button {
+    background-color: #dc3545; /* Червоний колір для кнопки "Reset" */
+    border-color: #dc3545;
+    color: white;
+}
+
+    .custom-reset-button:hover {
+        background-color: #c82333; /* Темніший червоний при наведенні */
+        border-color: #c82333;
+    }
+
+/* Пошукове поле */
+.custom-search-input {
+    border-color: #6c757d; /* Сіра рамка */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+    .custom-search-input:focus {
+        border-color: #007bff; /* Синя рамка при фокусі */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* Стилі для карток товарів */
+.product-card {
+    margin-bottom: 20px; /* Відстань між картками по вертикалі */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    transition: transform 0.2s ease-in-out;
+}
+
+    .product-card:hover {
+        transform: translateY(-5px); /* Легке підняття картки при наведенні */
+    }
+
+.card-body {
+    padding: 15px; /* Внутрішні відступи для карток */
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 180px; /* Фіксована висота для зображень */
+    width: 100%;
+}
+
+/* Відстань між картками */
+.w-100 {
+    gap: 20px; /* Відстань між картками */
+}
+

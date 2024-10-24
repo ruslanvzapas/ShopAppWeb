@@ -1,0 +1,27 @@
+﻿@using ShopAppWebUI.Models.DTOs;
+
+
+@model CollectionDTO
+@{
+}
+
+@* @Html.ValidationSummary() *@
+
+
+<div style="width:50%">
+<h2> Update Collection </h2>
+<a asp-action="Index" asp-controller="Collection" class="btn btn-primary">Back</a>
+<form asp-action="UpdateCollection">
+   <input type="hidden" asp-for="Id" />
+
+   <div class="my-2">
+      <label>Collection</label>
+      <input type="text" class="form-control" asp-for="CollectionName" />
+            <span asp-validation-for="CollectionName" class="text-danger"></span>
+   </div>
+
+   <div class="my-2">
+      <button type="submit" class="btn btn-info">Update</button>
+   </div>
+</form>
+</div>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShopAppWebUI.Models;
+using ShopAppWebUI.Models.DTOs;
 using System.Diagnostics;
 
 namespace ShopAppWebUI.Controllers
@@ -7,15 +8,28 @@ namespace ShopAppWebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHomeRepository _homeRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHomeRepository homeRepository)
         {
             _logger = logger;
+            _homeRepository = homeRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sterm="", int collectionId=0)
         {
-            return View();
+            IEnumerable<Product> products = await _homeRepository.GetProducts(sterm, collectionId);
+            IEnumerable<Collection> collections = await _homeRepository.Collections();
+
+            ProductDisplayModel productModel = new ProductDisplayModel
+            {
+                Products = products,
+                Collections = collections,
+                STerm = sterm,
+                CollectionId = collectionId
+            };
+
+            return View(productModel);
         }
 
         public IActionResult Privacy()
