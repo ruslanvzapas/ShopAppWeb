@@ -281,11 +281,28 @@ namespace ShopAppWebUI.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MobileNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -294,6 +311,11 @@ namespace ShopAppWebUI.Data.Migrations
 
                     b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -403,6 +425,28 @@ namespace ShopAppWebUI.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShoppingCart");
+                });
+
+            modelBuilder.Entity("ShopAppWebUI.Models.Stock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.ToTable("Stock");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,6 +560,17 @@ namespace ShopAppWebUI.Data.Migrations
                     b.Navigation("Collection");
                 });
 
+            modelBuilder.Entity("ShopAppWebUI.Models.Stock", b =>
+                {
+                    b.HasOne("ShopAppWebUI.Models.Product", "Product")
+                        .WithOne("Stock")
+                        .HasForeignKey("ShopAppWebUI.Models.Stock", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ShopAppWebUI.Models.Collection", b =>
                 {
                     b.Navigation("Products");
@@ -531,6 +586,9 @@ namespace ShopAppWebUI.Data.Migrations
                     b.Navigation("CartDetail");
 
                     b.Navigation("OrderDetail");
+
+                    b.Navigation("Stock")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShopAppWebUI.Models.ShoppingCart", b =>

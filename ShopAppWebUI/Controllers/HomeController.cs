@@ -16,9 +16,9 @@ namespace ShopAppWebUI.Controllers
             _homeRepository = homeRepository;
         }
 
-        public async Task<IActionResult> Index(string sterm="", int collectionId=0)
+        public async Task<IActionResult> Index(string sterm="", int collectionId=0, double? minPrice = null, double? maxPrice = null)
         {
-            IEnumerable<Product> products = await _homeRepository.GetProducts(sterm, collectionId);
+            IEnumerable<Product> products = await _homeRepository.GetProducts(sterm, collectionId, minPrice, maxPrice);
             IEnumerable<Collection> collections = await _homeRepository.Collections();
 
             ProductDisplayModel productModel = new ProductDisplayModel
@@ -26,7 +26,9 @@ namespace ShopAppWebUI.Controllers
                 Products = products,
                 Collections = collections,
                 STerm = sterm,
-                CollectionId = collectionId
+                CollectionId = collectionId,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice
             };
 
             return View(productModel);

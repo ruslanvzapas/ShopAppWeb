@@ -1,0 +1,42 @@
+﻿@using ShopAppWebUI.Models.DTOs
+@model ProductDTO
+@{
+
+ }
+
+<div style="width:50%">
+    <h2> Add Product </h2>
+    <a asp-action="Index" asp-controller="Product" class="btn btn-primary">Back</a>
+    <form asp-action="AddProduct" enctype="multipart/form-data">
+        @* <input type="hidden" asp-for="Id" /> *@
+
+        <div class="my-2">
+            <label>Product*</label>
+            <input type="text" class="form-control" asp-for="ProductName" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Collection*</label>
+            <select class="form-control" asp-for="CollectionId" asp-items="Model.CollectionList">
+                <option value="">Select Collection</option>
+            </select>
+            <span asp-validation-for="CollectionId" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Price*</label>
+            <input type="number" class="form-control" asp-for="Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="my-2">
+            <label>Image</label>
+            <input type="file" class="form-control" asp-for="ImageFile" />
+        </div>
+
+        <div class="my-2">
+            <button type="submit" class="btn btn-info">Add</button>
+        </div>
+    </form>
+</div>

@@ -7,33 +7,36 @@
     <li class="nav-item">
         <a class="nav-link" href="/Cart/GetUserCart" id="cart-container">
             <span id="cartCount" class="badge text-bg-info text-dark">0</span>
-            <i class="bi bi-cart"></i>
+        <i class="bi bi-bag"></i>
         </a>
     </li>
-
+    
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
+        <li style="padding: 0 0px">
             <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                @User.Identity?.Name!
+            <i class="bi bi-person"></i>
                 @if (User.IsInRole("Admin"))
                 {
-                    <span>(Admin)</span>
+                    <span>[Admin]</span>
                 }
             </a>
         </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+        <li>
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="logout-button">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
+        </form>
+
         </li>
     }
     else
     {
-        <li class="nav-item">
+        <li>
             <a asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
-        <li class="nav-item">
+        <li>
             <a asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }

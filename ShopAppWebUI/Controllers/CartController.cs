@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShopAppWebUI.Models.DTOs;
 
 namespace ShopAppWebUI.Controllers
 {
@@ -7,10 +9,12 @@ namespace ShopAppWebUI.Controllers
     public class CartController : Controller
     {
         private readonly ICartRepository _cartRepo;
+        
 
         public CartController(ICartRepository cartRepo)
         {
             _cartRepo = cartRepo;
+            
         }
         public async Task<IActionResult> AddItem(int productId, int qty = 1, int redirect = 0)
         {
@@ -34,8 +38,8 @@ namespace ShopAppWebUI.Controllers
         public async Task<IActionResult> GetTotalItemInCart()
         {
             int cartItem = await _cartRepo.GetCartItemCount();
-            //return Ok(cartItem);
-            return Json(cartItem);
+            return Ok(cartItem);
+ 
         }
 
         public IActionResult Checkout()
@@ -43,8 +47,8 @@ namespace ShopAppWebUI.Controllers
             return View();
         }
 
-      /*  [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutModel model)
+       [HttpPost]
+       public async Task<IActionResult> Checkout(CheckoutModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -52,7 +56,8 @@ namespace ShopAppWebUI.Controllers
             if (!isCheckedOut)
                 return RedirectToAction(nameof(OrderFailure));
             return RedirectToAction(nameof(OrderSuccess));
-        } */
+        }
+
 
         public IActionResult OrderSuccess()
         {

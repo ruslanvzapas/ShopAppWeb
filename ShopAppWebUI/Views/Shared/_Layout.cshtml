@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShopAppWebUI.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
     <!-- Підключення Google Fonts для Montserrat та Poppins -->
@@ -17,42 +18,45 @@
 </head>
 <body>
     <header>
-        <section id="header">
-            <div class="container-fluid">
-                <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index" >RVZ</a>
-             
-
+        <section id="header">        
+                <a href="#"><img src="~/images/logo 1.svg" class="logo" alt="" /></a>
                     <div id="navbarbox">
                         <ul id="navbar">
                             <li>
-                                <a class="active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-
-                            <li>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Photography" asp-action="Index">Photography</a>
+                                 <a class="active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li>
-                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                    <a asp-area="" asp-controller="Photography" asp-action="Index">Photography</a>
                             </li>
 
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="GetAll">Products</a>
+                                <li>
+                                    <a asp-area="" asp-controller="Product" asp-action="GetAll">Products</a>
                                 </li>
                             }
 
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="dropdown">
-                                        <a href="#" class="dropbtn" >Manage</a>
-                                        <div class="dropdown-content">
-                                            <a  asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                                            <a asp-area="" asp-controller="Collection" asp-action="Index">Collections</a>
-                                        </div>
-                                </li>
+                    @if (User.IsInRole(Roles.Admin.ToString()))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropbtn" >Manage</a>
+                            <div class="dropdown-content">
+                                <a class="nav-link"
+                                   href="/Product/Index">Product</a>
+                                <a asp-area="" asp-controller="Collection" asp-action="Index">Collections</a>
+                            </div>
+                        </li>
 
-                            }
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="/AdminOperations/AllOrders">Orders</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link"
+                               href="/Stock/Index">Stock</a>
+                        </li>
+
+                    }
 
                         <partial name="_LoginPartial" />
                         </ul>

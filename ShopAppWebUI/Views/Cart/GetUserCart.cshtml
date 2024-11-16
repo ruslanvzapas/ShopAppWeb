@@ -28,7 +28,7 @@
                         }
                         else
                         {
-                            <img src="/images/@item.Product.Image" style="width:80px;height:100px" />
+                            <img src="@item.Product.Image" style="width:80px;height:100px" />
                         }
                     </td>
 
@@ -36,7 +36,16 @@
                     <td>@item.Product.Price X @item.Quantity</td>
                     <td>@(item.Product.Price * item.Quantity)</td>
                     <td>
-                        <a class="btn btn-info" href="/Cart/AddItem?productId=@item.ProductId&&redirect=1">+</a>
+                        @* Increase Quantity button should be invisible if not enough stock*@
+                        @if (item.Quantity < item.Product.Stock.Quantity)
+                        {
+                            <a class="btn btn-info" href="/Cart/AddItem?productId=@item.ProductId&&redirect=1">+</a>
+                        }
+                        else
+                        {
+                            <span style="border: 1px solid;padding: 8px 8px;color: red;border-radius: 5px;margin-right:4px">Out of stock </span>
+                        }
+                        @* Decrement button *@
                         <a class="btn btn-info" href="/Cart/removeitem?productId=@item.ProductId">-</a>
                     </td>
                 </tr>
@@ -51,7 +60,7 @@
         </div>
 
         <div class="my-2">
-            <a class="btn btn-primary" href="/Cart/Checkout">Checkout</a>
+            <a class="btn btn-primary" href="/Cart/Checkout">Place Order</a>
         </div>
 
     }

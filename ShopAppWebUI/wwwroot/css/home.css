@@ -1,0 +1,6 @@
+﻿/* Підключення шрифтів */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+:root {
+    --pr-background: #F8F5FC;
+}

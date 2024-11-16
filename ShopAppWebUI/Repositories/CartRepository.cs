@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
+using ShopAppWebUI.Models.DTOs;
 
 namespace ShopAppWebUI.Repositories
 {
     public class CartRepository : ICartRepository
     {
-
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -46,13 +45,13 @@ namespace ShopAppWebUI.Repositories
                 }
                 else
                 {
-                    var book = _db.Products.Find(productId);
+                    var product = _db.Products.Find(productId);
                     cartItem = new CartDetail
                     {
                         ProductId = productId,
                         ShoppingCartId = cart.Id,
                         Quantity = qty,
-                        UnitPrice = book.Price  // it is a new line after update
+                        UnitPrice = product.Price  // it is a new line after update
                     };
                     _db.CartDetails.Add(cartItem);
                 }
@@ -106,7 +105,7 @@ namespace ShopAppWebUI.Repositories
             var shoppingCart = await _db.ShoppingCarts
                                   .Include(a => a.CartDetails)
                                   .ThenInclude(a => a.Product)
-                                 // .ThenInclude(a => a.Stock)
+                                  .ThenInclude(a => a.Stock)
                                   .Include(a => a.CartDetails)
                                   .ThenInclude(a => a.Product)
                                   .ThenInclude(a => a.Collection)
@@ -136,7 +135,78 @@ namespace ShopAppWebUI.Repositories
             return data.Count;
         }
 
-        private string GetUserId()
+        public async Task<bool> DoCheckout(CheckoutModel model)
+        {
+            using var transaction = _db.Database.BeginTransaction();
+            try 
+            {
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                    throw new UnauthorizedAccessException("User is not logged-in");
+                var cart = await GetCart(userId);
+                if (cart is null)
+                    throw new InvalidOperationException("Invalid cart");
+                var cartDetail = _db.CartDetails
+                                    .Where(a => a.ShoppingCartId == cart.Id).ToList();
+                if (cartDetail.Count == 0)
+                    throw new InvalidOperationException("Cart is empty");
+
+                var pendingRecord = _db.OrderStatuses.FirstOrDefault(s => s.StatusName == "Pending");
+                if (pendingRecord is null)
+                    throw new InvalidOperationException("Order status does not have Pending status");
+                var order = new Order
+                {
+                    UserId = userId,
+                    CreateDate = DateTime.UtcNow,
+                    Name = model.Name,
+                    Email = model.Email,
+                    MobileNumber = model.MobileNumber,
+                    PaymentMethod = model.PaymentMethod,
+                    Address = model.Address,
+                    IsPaid = false,
+                    OrderStatusId = pendingRecord.Id
+                };
+                _db.Orders.Add(order);
+                _db.SaveChanges();
+
+                foreach(var item in cartDetail)
+                {
+                    var orderDetail = new OrderDetail
+                    {
+                        ProductId = item.ProductId,
+                        OrderId = order.Id,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice,
+                    };
+                    _db.OrderDetails.Add(orderDetail);
+
+                    var stock = await _db.Stocks.FirstOrDefaultAsync(a => a.ProductId == item.ProductId);
+                    if (stock == null)
+                    {
+                        throw new InvalidOperationException("Stock is null");
+                    }
+
+                    if (item.Quantity > stock.Quantity)
+                    {
+                        throw new InvalidOperationException($"Only {stock.Quantity} items(s) are available in the stock");
+                    }
+                    // decrease the number of quantity from the stock table
+                    stock.Quantity -= item.Quantity;
+                }
+                //_db.SaveChanges();
+
+                _db.CartDetails.RemoveRange(cartDetail);
+                _db.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+        }
+
+       private string GetUserId()
         {
             var principal = _httpContextAccessor.HttpContext.User;
             string userId = _userManager.GetUserId(principal);
