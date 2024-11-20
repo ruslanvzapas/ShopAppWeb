@@ -18,7 +18,7 @@
             <i class="bi bi-person"></i>
                 @if (User.IsInRole("Admin"))
                 {
-                    <span>[Admin]</span>
+                <span>(@Localizer["Admin"])</span>
                 }
             </a>
         </li>
@@ -34,10 +34,10 @@
     else
     {
         <li>
-            <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a asp-area="Identity" asp-page="/Account/Register">@Localizer["Register"]</a>
         </li>
         <li>
-            <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a asp-area="Identity" asp-page="/Account/Login">@Localizer["Login"]</a>
         </li>
     }
 

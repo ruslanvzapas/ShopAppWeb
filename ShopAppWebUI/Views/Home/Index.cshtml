@@ -1,4 +1,8 @@
-﻿@using ShopAppWebUI.Models;
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@using ShopAppWebUI.Models;
 @using ShopAppWebUI.Models.DTOs;
 
 @model ProductDisplayModel
@@ -9,9 +13,9 @@
     <section id="hero">
         <img src="~/images/hero-img1.png" alt="Background Image">
         <div class="hero-content">
-            <h3 style="color: #FAFAFA">Khmelnytskyi Vibes</h3>
-            <p style="color: #FAFAFA">Experience the unique charm of Khmelnytskyi with our handcrafted Lightroom preset collections</p>
-            <button class="button custom-hero-button">Shop Now</button>
+            <h3 style="color: #FAFAFA">@Localizer["KhmelnytskyiVibes"]</h3>
+            <p style="color: #FAFAFA">@Localizer["Experience"]</p>
+            <button class="button custom-hero-button">@Localizer["ShopNow"]</button>
         </div>
     </section>
 </div>
@@ -19,8 +23,8 @@
 
 
 <section id="product1">
-    <h2>Featured Products</h2>
-    <p>Take your photography to the next level with Ruslan's bestselling Lightroom presets collections.</p>
+    <h2>@Localizer["Featured"]</h2>
+    <p>@Localizer["photographyDes"]</p>
 
     <div class="my-2">
         <form>
@@ -28,7 +32,7 @@
 
                 <label class="visually-hidden" for="sterm">Search by title</label>
                 <div class="input-group search-box">
-                    <input type="text" class="form-control custom-search-input" value="@Model.STerm" id="sterm" name="sterm" placeholder="Search by title">
+                    <input type="text" class="form-control custom-search-input" value="@Model.STerm" id="sterm" name="sterm" placeholder=@Localizer["Searchbytitle"]>
 
                     <div class="buttons-box">
 
@@ -71,11 +75,11 @@
                 <div class="number-box">
                     <div class="input-container">
                         <label class="visually-hidden" for="minPrice">Min Price</label>
-                        <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="Min Price" step="0.01" value="@Model.MinPrice">
+                        <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder=@Localizer["MinPrice"] step="0.01" value="@Model.MinPrice">
                     </div>
                     <div class="input-container">
                         <label class="visually-hidden" for="maxPrice">Max Price</label>
-                        <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max Price" step="0.01" value="@Model.MaxPrice">
+                        <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder=@Localizer["MaxPrice"] step="0.01" value="@Model.MaxPrice">
                     </div>
                 </div>
             </div>
